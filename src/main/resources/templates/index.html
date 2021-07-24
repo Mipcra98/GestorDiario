@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    <head>
+        <title>Inicio</title>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+            <div class="container">
+                <header th:replace="layout/plantilla :: header"></header>
+                <section>
+                    <!-- Sección de Entradas -->
+
+                    <h3><a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/agregarEntradas}">[[#{entrada.crear}]]</a></h3>
+
+                    <div th:if="${entradas != null and !entradas.empty}">
+                        <h3>Entradas</h3>
+                        <table border="5" class="table table-hover table-secondary">
+                            <thead>
+                                <tr>
+                                    <th scope="col">[[#{datos.categoria}]]</th>
+                                    <th scope="col">[[#{datos.monto}]]</th>
+                                    <th scope="col">[[#{datos.descripcion}]]</th>
+                                    <th scope="col">[[#{datos.fecha}]]</th>
+                                    <th scope="col">[[#{datos.metodo}]]</th>
+                                    <th scope="col" sec:authorize="hasRole('ROLE_ADMIN')">[[#{accion.editar}]]</th>
+                                    <th scope="col" sec:authorize="hasRole('ROLE_ADMIN')">[[#{accion.eliminar}]]</th>
+                                </tr>
+                            </thead>
+                                <tbody>
+                                <tr th:each="entrada : ${entradas}">
+                                    <td th:text="${entrada.categoria}"></td>
+                                    <td th:text="${entrada.monto}"></td>
+                                    <td th:text="${entrada.descripcion}"></td>
+                                    <td th:text="${entrada.fecha}"></td>
+                                    <td th:text="${entrada.id_metodo}"></td>
+                                    <td sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/editarEntrada/} + ${entrada.id_entrada}"/>[[#{accion.editar}]]</td>
+                                    <td sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/eliminarEntrada(id_entrada=${entrada.id_entrada})}"/>[[#{accion.eliminar}]]</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div th:if="${entradas == null or entradas.empty}">
+                       [[#{entrada.lista-vacia}]]
+                    </div>
+                </section>
+                <section>
+                    <!-- Sección de Salidas -->
+                    <h3><a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/agregarSalidas}">[[#{salida.crear}]]</a></h3>
+
+                    <div th:if="${salidas != null and !salidas.empty}">
+                        <h3>Salidas</h3>
+                        <table border="5" class="table table-hover table-secondary">
+                            <thead>
+                                <tr>
+                                    <th scope="col">[[#{datos.categoria}]]</th>
+                                    <th scope="col">[[#{datos.monto}]]</th>
+                                    <th scope="col">[[#{datos.descripcion}]]</th>
+                                    <th scope="col">[[#{datos.fecha}]]</th>
+                                    <th scope="col">[[#{datos.metodo}]]</th>
+                                    <th scope="col" sec:authorize="hasRole('ROLE_ADMIN')">[[#{accion.editar}]]</th>
+                                    <th scope="col" sec:authorize="hasRole('ROLE_ADMIN')">[[#{accion.eliminar}]]</th>
+                                </tr>
+                            </thead>
+                                <tbody>
+                                <tr th:each="salida : ${salidas}">
+                                    <td th:text="${salida.categoria}"></td>
+                                    <td th:text="${salida.monto}"></td>
+                                    <td th:text="${salida.descripcion}"></td>
+                                    <td th:text="${salida.fecha}"></td>
+                                    <td th:text="${salida.id_metodo}"></td>
+                                    <td sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/editarSalida/} + ${salida.id_salida}"/>[[#{accion.editar}]]</td>
+                                    <td sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/eliminarSalida(id_salida=${salida.id_salida})}"/>[[#{accion.eliminar}]]</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div th:if="${salidas == null or salidas.empty}">
+                       [[#{salida.lista-vacia}]]
+                    </div>
+                </section>
+                <section>
+                    <!-- Sección de Transferencias -->
+                    
+                    <h3><a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/agregarTransferencias}">[[#{transferencia.crear}]]</a></h3>
+
+                    <div th:if="${transferencias != null and !transferencias.empty}">
+                        <h3>Transferencias</h3>
+                        <table border="5" class="table table-hover table-secondary">
+                            <thead>
+                                <tr>
+                                    <th scope="col">[[#{datos.categoria}]]</th>
+                                    <th scope="col">[[#{datos.monto}]]</th>
+                                    <th scope="col">[[#{datos.descripcion}]]</th>
+                                    <th scope="col">[[#{datos.fecha}]]</th>
+                                    <th scope="col">[[#{datos.metodo}]]</th>
+                                    <th scope="col" sec:authorize="hasRole('ROLE_ADMIN')">[[#{accion.editar}]]</th>
+                                    <th scope="col" sec:authorize="hasRole('ROLE_ADMIN')">[[#{accion.eliminar}]]</th>
+                                </tr>
+                            </thead>
+                                <tbody>
+                                <tr th:each="transferencia : ${transferencias}">
+                                    <td th:text="${transferencia.categoria}"></td>
+                                    <td th:text="${transferencia.monto}"></td>
+                                    <td th:text="${transferencia.descripcion}"></td>
+                                    <td th:text="${transferencia.fecha}"></td>
+                                    <td th:text="${transferencia.id_metodo}"></td>
+                                    <td sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/editarTransferencia/} + ${transferencia.id_transferencia}"/>[[#{accion.editar}]]</td>
+                                    <td sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/eliminarTransferencia(id_transferencia=${transferencia.id_transferencia})}"/>[[#{accion.eliminar}]]</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div th:if="${transferencias == null or transferencias.empty}">
+                       [[#{transferencia.lista-vacia}]]
+                    </div>
+                </section>
+                <footer th:replace="layout/plantilla :: footer"></footer>
+            </div>
+    </body>
+</html>

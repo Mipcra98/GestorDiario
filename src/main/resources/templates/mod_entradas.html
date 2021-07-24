@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+      xmlns="http://www.w3.org/1999/xhtml">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <head>
+        <title>Datos de la Persona</title>
+        <meta charset="UTF-8"/>
+    </head>
+    <body>
+        <div class="container">
+            <header th:replace="layout/plantilla :: header"></header>
+
+            <h2>[[#{entrada.formulario}]]</h2>
+            <a th:href="@{/}">[[#{accion.regresar}]]</a>
+            <br/>
+            <form th:action="@{/guardarEntrada}" method="post" "th:object="${entrada}">
+                <div class="row g-5 align-items-center">
+                    <input type="hidden" name="id_entrada" th:field="*{id_entrada}"/>
+                    <div class="col-auto">
+                        <label class="col-form-label" for="categoria">[[#{datos.categoria}]]:</label>
+                        <input class="col-auto form-control" type="text" name="categoria" th:field="*{categoria}"/>
+                        <span th:if="${#fields.hasErrors('categoria')}" th:errors="*{categoria}">Error Categoria</span>
+                    </div>
+                    <div class="col-auto">
+                        <label class="col-form-label" for="monto">[[#{datos.monto}]]:</label>
+                        <input class="col-auto form-control" type="text" name="monto" th:field="*{monto}"/>
+                        <span th:if="${#fields.hasErrors('monto')}" th:errors="*{monto}">Error Monto</span>
+                    </div>
+                    <div class="col-auto">
+                        <label class="col-form-label" for="descripcion">[[#{datos.descripcion}]]:</label>
+                        <input class="col-auto form-control" type="text" name="descripcion" th:field="*{descripcion}"/>
+                        <span th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}">Error Descripcion</span>
+                    </div>
+                    <br/>
+                    <div class="col-auto">
+                        <label class="col-form-label" for="fecha">[[#{persona.fecha}]]:</label>
+                        <input class="col-auto form-control" type="date" name="fecha" th:field="*{fecha}"/>
+                        <span th:if="${#fields.hasErrors('fecha')}" th:errors="*{fecha}">Error Fecha</span>
+                    </div>
+                    <div>
+                        <select th:field="*{id_metodo}">
+                            <option th:each="metodo : ${metodos}" th:value="${metodo}" th:text="${metodo.nombre}"></option>
+                        </select>
+                    </div>
+                </div>
+                <br/>
+                <input class="button" type="submit" name="guardarEntrada" th:value="#{accion.guardar}"/>
+            </form>
+            
+            <footer th:replace="layout/plantilla :: footer"></footer>
+        </div>
+    </body>
+</html>
